@@ -37,6 +37,35 @@ def extract():
 
     return jsonify(result)
 
+@app.route("/results", methods=["GET"])
+def get_results():
+
+    import sqlite3
+
+    conn = sqlite3.connect("database/answer_sheet.db")
+    conn.row_factory = sqlite3.Row
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT
+        registration_no,
+        roll_no,
+        student_name,
+        course_code,
+        q1_total,
+        q2_total,
+        q3_total,
+        grand_total
+        FROM results
+        ORDER BY registration_no
+    """)
+
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return [dict(row) for row in rows]
 
 @app.route("/save", methods=["POST"])
 def save():
