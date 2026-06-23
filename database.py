@@ -24,6 +24,9 @@ def init_db():
         branch TEXT,
         section TEXT,
 
+        session TEXT,
+        subject TEXT,
+
         course_code TEXT,
 
         q1a INTEGER,
@@ -49,6 +52,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+
 def save_result(data):
 
     conn = sqlite3.connect(DB_PATH)
@@ -56,63 +60,83 @@ def save_result(data):
     cursor = conn.cursor()
 
     cursor.execute("""
-INSERT OR REPLACE INTO results(
+    INSERT OR REPLACE INTO results(
 
-    registration_no,
-    roll_no,
-    student_name,
+        registration_no,
+        roll_no,
+        student_name,
 
-    branch,
-    section,
+        branch,
+        section,
 
-    course_code,
+        session,
+        subject,
 
-    q1a,q1b,q1c,
-    q2a,q2b,q2c,
-    q3a,q3b,q3c,
+        course_code,
 
-    q1_total,
-    q2_total,
-    q3_total,
+        q1a,
+        q1b,
+        q1c,
 
-    grand_total
+        q2a,
+        q2b,
+        q2c,
 
-) VALUES(
-    ?,?,?,?,?,?,
-    ?,?,?,?,?,
-    ?,?,?,?,?,
-    ?,?,?
-)
-""", (
+        q3a,
+        q3b,
+        q3c,
 
-    data["registration_no"],
-    data["roll_no"],
-    data["student_name"],
+        q1_total,
+        q2_total,
+        q3_total,
 
-    data["branch"],
-    data["section"],
+        grand_total
 
-    data["course_code"],
+    ) VALUES(
 
-    data["q1a"],
-    data["q1b"],
-    data["q1c"],
+        ?,?,?,?,?,?,
+        ?,?,
+        ?,
+        ?,?,?,
+        ?,?,?,
+        ?,?,?,
+        ?,?,?,
+        ?
 
-    data["q2a"],
-    data["q2b"],
-    data["q2c"],
+    )
+    """, (
 
-    data["q3a"],
-    data["q3b"],
-    data["q3c"],
+        data["registration_no"],
+        data["roll_no"],
+        data["student_name"],
 
-    data["q1_total"],
-    data["q2_total"],
-    data["q3_total"],
+        data["branch"],
+        data["section"],
 
-    data["grand_total"]
+        data["session"],
+        data["subject"],
 
-))
+        data["course_code"],
+
+        data["q1a"],
+        data["q1b"],
+        data["q1c"],
+
+        data["q2a"],
+        data["q2b"],
+        data["q2c"],
+
+        data["q3a"],
+        data["q3b"],
+        data["q3c"],
+
+        data["q1_total"],
+        data["q2_total"],
+        data["q3_total"],
+
+        data["grand_total"]
+
+    ))
 
     conn.commit()
     conn.close()
