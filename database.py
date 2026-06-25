@@ -8,12 +8,16 @@ def init_db():
 
     os.makedirs("database", exist_ok=True)
 
+    # DELETE OLD DATABASE (for development only)
+    if os.path.exists(DB_PATH):
+        os.remove(DB_PATH)
+
     conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.cursor()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS results(
+    CREATE TABLE results(
 
         registration_no TEXT PRIMARY KEY,
 
@@ -106,35 +110,35 @@ def save_result(data):
     )
     """, (
 
-        data["registration_no"],
-        data["roll_no"],
-        data["student_name"],
+        data.get("registration_no", ""),
+        data.get("roll_no", ""),
+        data.get("student_name", ""),
 
-        data["branch"],
-        data["section"],
+        data.get("branch", ""),
+        data.get("section", ""),
 
-        data["session"],
-        data["subject"],
+        data.get("session", ""),
+        data.get("subject", ""),
 
-        data["course_code"],
+        data.get("course_code", ""),
 
-        data["q1a"],
-        data["q1b"],
-        data["q1c"],
+        data.get("q1a", 0),
+        data.get("q1b", 0),
+        data.get("q1c", 0),
 
-        data["q2a"],
-        data["q2b"],
-        data["q2c"],
+        data.get("q2a", 0),
+        data.get("q2b", 0),
+        data.get("q2c", 0),
 
-        data["q3a"],
-        data["q3b"],
-        data["q3c"],
+        data.get("q3a", 0),
+        data.get("q3b", 0),
+        data.get("q3c", 0),
 
-        data["q1_total"],
-        data["q2_total"],
-        data["q3_total"],
+        data.get("q1_total", 0),
+        data.get("q2_total", 0),
+        data.get("q3_total", 0),
 
-        data["grand_total"]
+        data.get("grand_total", 0)
 
     ))
 
