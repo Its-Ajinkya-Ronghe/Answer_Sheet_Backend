@@ -24,7 +24,6 @@ Return ONLY valid JSON.
   "student_name":"",
   "branch":"",
   "section":"",
-  "course_code":"",
 
   "q1a":0,
   "q1b":0,

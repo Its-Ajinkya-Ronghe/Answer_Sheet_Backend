@@ -17,41 +17,40 @@ def init_db():
     cursor = conn.cursor()
 
     cursor.execute("""
-    CREATE TABLE results(
+CREATE TABLE IF NOT EXISTS results(
 
-        registration_no TEXT PRIMARY KEY,
+    registration_no TEXT PRIMARY KEY,
 
-        roll_no TEXT,
+    roll_no TEXT,
 
-        student_name TEXT,
+    student_name TEXT,
 
-        branch TEXT,
-        section TEXT,
+    branch TEXT,
+    section TEXT,
 
-        session TEXT,
-        subject TEXT,
+    session TEXT,
 
-        course_code TEXT,
+    course_code TEXT,
 
-        q1a INTEGER,
-        q1b INTEGER,
-        q1c INTEGER,
+    q1a INTEGER,
+    q1b INTEGER,
+    q1c INTEGER,
 
-        q2a INTEGER,
-        q2b INTEGER,
-        q2c INTEGER,
+    q2a INTEGER,
+    q2b INTEGER,
+    q2c INTEGER,
 
-        q3a INTEGER,
-        q3b INTEGER,
-        q3c INTEGER,
+    q3a INTEGER,
+    q3b INTEGER,
+    q3c INTEGER,
 
-        q1_total INTEGER,
-        q2_total INTEGER,
-        q3_total INTEGER,
+    q1_total INTEGER,
+    q2_total INTEGER,
+    q3_total INTEGER,
 
-        grand_total INTEGER
-    )
-    """)
+    grand_total INTEGER
+)
+""")
 
     conn.commit()
     conn.close()
@@ -64,83 +63,80 @@ def save_result(data):
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT OR REPLACE INTO results(
+INSERT OR REPLACE INTO results(
 
-        registration_no,
-        roll_no,
-        student_name,
+    registration_no,
+    roll_no,
+    student_name,
 
-        branch,
-        section,
+    branch,
+    section,
 
-        session,
-        subject,
+    session,
 
-        course_code,
+    course_code,
 
-        q1a,
-        q1b,
-        q1c,
+    q1a,
+    q1b,
+    q1c,
 
-        q2a,
-        q2b,
-        q2c,
+    q2a,
+    q2b,
+    q2c,
 
-        q3a,
-        q3b,
-        q3c,
+    q3a,
+    q3b,
+    q3c,
 
-        q1_total,
-        q2_total,
-        q3_total,
+    q1_total,
+    q2_total,
+    q3_total,
 
-        grand_total
+    grand_total
 
-    ) VALUES(
+) VALUES(
 
-        ?,?,?,?,?,?,
-        ?,?,
-        ?,
-        ?,?,?,
-        ?,?,?,
-        ?,?,?,
-        ?,?,?,
-        ?
+    ?,?,?,?,?,?,
+    ?,
+    ?,?,?,
+    ?,?,?,
+    ?,?,?,
+    ?,?,?,
+    ?
 
-    )
-    """, (
+)
+""", (
 
-        data.get("registration_no", ""),
-        data.get("roll_no", ""),
-        data.get("student_name", ""),
+    data.get("registration_no",""),
+    data.get("roll_no",""),
+    data.get("student_name",""),
 
-        data.get("branch", ""),
-        data.get("section", ""),
+    data.get("branch",""),
+    data.get("section",""),
 
-        data.get("session", ""),
-        data.get("subject", ""),
+    data.get("session",""),
 
-        data.get("course_code", ""),
+    data.get("course_code",""),
 
-        data.get("q1a", 0),
-        data.get("q1b", 0),
-        data.get("q1c", 0),
+    data.get("q1a",0),
+    data.get("q1b",0),
+    data.get("q1c",0),
 
-        data.get("q2a", 0),
-        data.get("q2b", 0),
-        data.get("q2c", 0),
+    data.get("q2a",0),
+    data.get("q2b",0),
+    data.get("q2c",0),
 
-        data.get("q3a", 0),
-        data.get("q3b", 0),
-        data.get("q3c", 0),
+    data.get("q3a",0),
+    data.get("q3b",0),
+    data.get("q3c",0),
 
-        data.get("q1_total", 0),
-        data.get("q2_total", 0),
-        data.get("q3_total", 0),
+    data.get("q1_total",0),
+    data.get("q2_total",0),
+    data.get("q3_total",0),
 
-        data.get("grand_total", 0)
+    data.get("grand_total",0)
 
-    ))
+))
 
     conn.commit()
     conn.close()
