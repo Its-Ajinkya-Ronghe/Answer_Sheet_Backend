@@ -74,7 +74,7 @@ def get_results():
 def download_excel():
 
     session = request.args.get("session")
-    course_code = request.args.get("course_code")
+    course_code = request.args.get("subject")
 
     conn = sqlite3.connect(
         "database/answer_sheet.db"
@@ -95,6 +95,12 @@ def download_excel():
 
     conn.close()
 
+    if df.empty:
+
+        return jsonify({
+            "message": "No data found"
+        }), 404
+
     filename = "results.xlsx"
 
     df.to_excel(
@@ -104,7 +110,8 @@ def download_excel():
 
     return send_file(
         filename,
-        as_attachment=True
+        as_attachment=True,
+        download_name="results.xlsx"
     )
 
 @app.route("/save", methods=["POST"])
