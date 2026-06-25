@@ -80,18 +80,25 @@ def download_excel():
         "database/answer_sheet.db"
     )
 
-    query = """
-    SELECT *
-    FROM results
-    WHERE session = ?
-    AND course_code = ?
-    """
+    # query = """
+    # SELECT *
+    # FROM results
+    # WHERE session = ?
+    # AND course_code = ?
+    # """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=(session, course_code)
-    )
+    query = """
+            SELECT *
+            FROM results
+            """
+
+    df = pd.read_sql_query(query, conn)
+
+    # df = pd.read_sql_query(
+    #     query,
+    #     conn,
+    #     params=(session, course_code)
+    # )
 
     conn.close()
 
