@@ -1,7 +1,10 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+import pandas as pd
+import sqlite3
 
+from flask import send_file
 from flask_cors import CORS
 
 from gemini_service import extract_data
@@ -66,6 +69,43 @@ def get_results():
     conn.close()
 
     return [dict(row) for row in rows]
+
+@app.route("/download-excel")
+def download_excel():
+
+    session = request.args.get("session")
+    course_code = request.args.get("course_code")
+
+    conn = sqlite3.connect(
+        "database/answer_sheet.db"
+    )
+
+    query = """
+    SELECT *
+    FROM results
+    WHERE session = ?
+    AND course_code = ?
+    """
+
+    df = pd.read_sql_query(
+        query,
+        conn,
+        params=(session, course_code)
+    )
+
+    conn.close()
+
+    filename = "results.xlsx"
+
+    df.to_excel(
+        filename,
+        index=False
+    )
+
+    return send_file(
+        filename,
+        as_attachment=True
+    )
 
 @app.route("/save", methods=["POST"])
 def save():
